@@ -1,8 +1,10 @@
 import { readFile, writeFile } from 'node:fs';
 import { Task } from './task.js';
+import { EventEmitter } from 'events';
 
-export class TaskManager {
+export class TaskManager extends EventEmitter{
     constructor() {
+        super();
         this.path = "./tasks.json";
     }
     loadTasks() {
@@ -17,15 +19,15 @@ export class TaskManager {
                 const obj = JSON.parse(data);
                 const tasks = obj.map(task => new Task(task.id, task.description, task.status));
                 resolve(tasks);
+                this.emit('tasksLoaded', tasks);
             });
         });
     }
     printTasks(tasks) {
         if (!tasks || tasks.length === 0) {
-            console.log("Нет задач, который можно было бы напечатать.");
+            console.log("Нет задач, которые можно было бы напечатать.");
             return;
         }
-
         tasks.forEach(task => {
             task.ToString();
         });
@@ -40,6 +42,7 @@ export class TaskManager {
                     return;
                 }
                 resolve();
+                this.emit('tasksSaved', tasks);
             });
         });
     }
@@ -50,6 +53,7 @@ export class TaskManager {
             tasks.push(task);
             await this.saveTasks(tasks);
             console.log("Задача успешно добавлена.");
+            this.emit('taskCreated', task);
         } catch (error) {
             console.error("Ошибка добавления задачи: ", error);
         }
@@ -63,6 +67,7 @@ export class TaskManager {
                 tasks.splice(index, 1);
                 await this.saveTasks(tasks);
                 console.log("Задача успешно удалена.");
+                this.emit('taskDeleted', taskId);
             } else {
                 console.log("Задача не найдена.");
             }
