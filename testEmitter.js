@@ -30,6 +30,6 @@ try {
 }finally {
     taskManager.removeListener('tasksLoaded', onTasksLoaded);
     taskManager.removeListener('tasksSaved', onTasksSaved);
-    taskManager.removeListener('taskCreated', onTaskAdded);
+    taskManager.removeListener('taskCreated', onTaskCreated);
     taskManager.removeListener('taskDeleted', onTaskDeleted);
 }

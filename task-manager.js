@@ -1,10 +1,12 @@
+import EventEmitter from 'events';
+
 import { readFile, writeFile } from 'node:fs';
 import { Task } from './task.js';
-import { EventEmitter } from 'events';
 
 export class TaskManager extends EventEmitter{
     constructor() {
         super();
+        // this.tasks=[];
         this.path = "./tasks.json";
     }
     loadTasks() {
@@ -17,17 +19,21 @@ export class TaskManager extends EventEmitter{
                     return;
                 }
                 const obj = JSON.parse(data);
-                const tasks = obj.map(task => new Task(task.id, task.description, task.status));
                 resolve(tasks);
-                this.emit('tasksLoaded', tasks);
+                this.tasks = obj.map(task => {
+                    const newTask = new TaskModel(task);
+                    newTask.save();
+                    return newTask;
+                })
             });
         });
     }
     printTasks(tasks) {
         if (!tasks || tasks.length === 0) {
-            console.log("Нет задач, которые можно было бы напечатать.");
+            console.log("Нет задач, который можно было бы напечатать.");
             return;
         }
+
         tasks.forEach(task => {
             task.ToString();
         });
@@ -42,7 +48,6 @@ export class TaskManager extends EventEmitter{
                     return;
                 }
                 resolve();
-                this.emit('tasksSaved', tasks);
             });
         });
     }
@@ -51,9 +56,9 @@ export class TaskManager extends EventEmitter{
         try {
             const tasks = await this.loadTasks();
             tasks.push(task);
+            this.emit('taskAdded', task);
             await this.saveTasks(tasks);
             console.log("Задача успешно добавлена.");
-            this.emit('taskCreated', task);
         } catch (error) {
             console.error("Ошибка добавления задачи: ", error);
         }
@@ -64,10 +69,10 @@ export class TaskManager extends EventEmitter{
             const tasks = await this.loadTasks();
             const index = tasks.findIndex(task => task.id === taskId);
             if (index !== -1) {
-                tasks.splice(index, 1);
+                const deletedTask = tasks.splice(index, 1)[0];
+                this.emit('TaskDeleted', deletedTask)
                 await this.saveTasks(tasks);
                 console.log("Задача успешно удалена.");
-                this.emit('taskDeleted', taskId);
             } else {
                 console.log("Задача не найдена.");
             }
