@@ -1,0 +1,43 @@
+.taskHeader{
+    height: 40px;
+    font-size: 16px;
+    border-radius: 10px;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+    padding: 0 20px;
+    width: max-content;
+}
+.headerbacklog{
+    background: #e3e3e3;
+    color: #8f837d;
+    font-size: 24px;
+}
+.headerinProcess{
+    background: #d6e7ff;
+    color: #3e8def;
+    font-size: 24px;
+}
+.headerdone{
+    background: #d7f9e0;
+    color: #6fe049;
+    font-size: 24px;
+}
+.headerbin{
+    background: #fbe3e3;
+    color: #d5837b;
+    font-size: 24px;
+}
+
+.taskCon{
+    display: flex;
+    flex-direction: row;
+    gap: 40px;
+}
+.taskCon div{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}

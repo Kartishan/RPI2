@@ -1,0 +1,31 @@
+.taskCard{
+    height: 50px;
+    width: 250px;
+    margin-left: 5px;
+    border-radius: 10px;
+    border: none;
+    background: #ffffff;
+    font-size: 16px;
+    color: black;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    padding-left: 10px;
+}
+.cardbacklog{
+    box-shadow: -5px 0px 0px 0px #e3e3e3;
+}
+.cardinProcess{
+    box-shadow: -5px 0px 0px 0px #d6e7ff;
+}
+.carddone{
+    box-shadow: -5px 0px 0px 0px #d7f9e0;
+}
+.cardbin{
+    box-shadow: -5px 0px 0px 0px #fbe3e3;
+}
+.cardStub{
+    background: none;
+    color: rgba(0, 0, 0, 0.5);
+    border: gray 1px solid;
+}

@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 const taskSchema = new mongoose.Schema({
     id: String,
-    description: String,
+    title: String,
     status: String
 });
 

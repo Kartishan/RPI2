@@ -2,7 +2,7 @@ POST http://localhost:3000/tasks
 Content-Type: application/json
 
 {
-  "id": "4",
-  "description": "Новая задача",
-  "status": "в процессе"
+  "id": "111243",
+  "title": "Задача на удаление 1",
+  "status": "bin"
 }

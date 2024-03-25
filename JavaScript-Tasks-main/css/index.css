@@ -1,0 +1,22 @@
+.header{
+    display: flex;
+    background-color: #2f80ed;
+    height: 60px;
+}
+.header h1{
+    font-size: 24px;
+    margin: 15px auto auto 60px;
+    color: white;
+}
+
+main{
+    height: auto;
+    padding: 50px 30px 30px 60px;
+}
+*{
+    margin: 0;
+    padding: 0;
+}
+body{
+    background-color: #eef4fb;
+}
