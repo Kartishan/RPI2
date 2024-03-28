@@ -19,26 +19,10 @@ const ErrorText = {
 };
 
 const load = (route, errorText, method = Method.GET, body = null) =>
-    fetch(`${BASE_URL}${route}`, { method, body })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error();
-            }
-            return response.json();
-        })
-        .catch(() => {
-            throw new Error(errorText);
-        });
-
-const getData = () => load(Route.GET_DATA, ErrorText.GET_DATA);
-
-const postData = (data) =>
-    fetch(`${BASE_URL}${Route.POST_DATA}`, {
-        method: Method.POST,
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
+    fetch(`${BASE_URL}${route}`, {
+        method,
+        headers: method !== Method.GET && method !== Method.DELETE ? { 'Content-Type': 'application/json' } : {},
+        body: method !== Method.GET && method !== Method.DELETE ? JSON.stringify(body) : null
     })
     .then(response => {
         if (!response.ok) {
@@ -47,21 +31,15 @@ const postData = (data) =>
         return response.json();
     })
     .catch(() => {
-        throw new Error(ErrorText.SEND_DATA);
+        throw new Error(errorText);
     });
 
-const deleteData = (id) =>
-    fetch(`${BASE_URL}${Route.DELETE_DATA}/${id}`, {
-        method: Method.DELETE
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error(ErrorText.DELETE_DATA);
-        }
-        return response.json();
-    })
-    .catch(() => {
-        throw new Error(ErrorText.DELETE_DATA);
-    });
+
+
+const getData = () => load(Route.GET_DATA, ErrorText.GET_DATA);
+
+const postData = (data) => load(Route.POST_DATA, ErrorText.SEND_DATA, Method.POST, data);
+
+const deleteData = (id) => load(`${Route.DELETE_DATA}/${id}`, ErrorText.DELETE_DATA, Method.DELETE);
 
 export { getData, postData, deleteData };
